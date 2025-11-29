@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Neha Nemade | Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      /* Color theme 1: purple + cyan */
+      --bg: #050816;
+      --bg-soft: #080b1e;
+      --bg-card: #0b1024;
+      --accent: #6366f1;     /* purple */
+      --accent2: #06b6d4;    /* cyan  */
+      --accent-soft: rgba(99, 102, 241, 0.12);
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.35);
+      --radius-lg: 18px;
+      --radius-pill: 999px;
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.9);
+      --transition: 0.2s ease-out;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(99, 102, 241, 0.22), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(6, 182, 212, 0.18), transparent 55%),
+        var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 3rem;
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+
+    .site-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+      padding: 0.6rem 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      flex: 1;
+      z-index: 1;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: conic-gradient(from 150deg, #22c55e, #06b6d4, #6366f1, #22c55e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #020617;
+      box-shadow: 0 12px 28px rgba(56, 189, 248, 0.4);
+    }
+
+    .brand-text-main {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .brand-text-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    nav {
+      display: flex;
+      gap: 1.2rem;
+      font-size: 0.86rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      z-index: 1;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-muted);
+      padding-bottom: 0.15rem;
+      position: relative;
+      transition: color var(--transition);
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width var(--transition);
+    }
+
+    nav a:hover {
+      color: var(--text-main);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* top-right circular image */
+
+    .profile-pic-wrap {
+      margin-left: auto;
+      z-index: 2;
+    }
+
+    .profile-pic {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid rgba(129, 140, 248, 0.9);
+      box-shadow: 0 14px 30px rgba(56, 189, 248, 0.55);
+      background: #020617;
+    }
+
+    /* HERO */
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.1fr);
+      gap: 1.8rem;
+      margin-bottom: 2.4rem;
+      align-items: stretch;
+    }
+
+    .hero-main {
+      background: radial-gradient(circle at top left, rgba(129, 140, 248, 0.18), rgba(15, 23, 42, 0.96));
+      border-radius: 24px;
+      padding: 1.7rem 1.8rem;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: var(--radius-pill);
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 0.9rem;
+    }
+
+    .hero-pill span {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.3);
+    }
+
+    .hero-main h1 {
+      font-size: clamp(2rem, 3.8vw, 2.5rem);
+      margin-bottom: 0.25rem;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-main h1 span {
+      background: linear-gradient(120deg, #e0e7ff, #a5b4fc, #22c55e);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-role {
+      font-size: 0.96rem;
+      color: var(--text-muted);
+      margin-bottom: 0.9rem;
+    }
+
+    .hero-summary {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+      max-width: 34rem;
+    }
+
+    .hero-summary strong {
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 1.3rem;
+    }
+
+    .btn-primary,
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.6rem 1.3rem;
+      font-size: 0.86rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid transparent;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #020617;
+      font-weight: 600;
+      box-shadow: 0 14px 30px rgba(56, 189, 248, 0.5);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(56, 189, 248, 0.7);
+    }
+
+    .btn-ghost {
+      background: rgba(15, 23, 42, 0.9);
+      border-color: rgba(148, 163, 184, 0.7);
+      color: var(--text-main);
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(226, 232, 240, 0.95);
+      transform: translateY(-1px);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.4rem;
+      font-size: 0.8rem;
+      margin-top: 0.4rem;
+    }
+
+    .hero-meta-item span {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-main);
+    }
+
+    .hero-meta-item {
+      color: var(--text-muted);
+    }
+
+    .hero-side {
+      background: rgba(15, 23, 42, 0.95);
+      border-radius: 24px;
+      padding: 1.3rem 1.4rem;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      font-size: 0.86rem;
+    }
+
+    .hero-side-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .hero-side-text {
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-side-list {
+      list-style: none;
+      color: var(--text-muted);
+    }
+
+    .hero-side-list li {
+      margin-bottom: 0.18rem;
+    }
+
+    /* SECTIONS */
+
+    section {
+      margin-bottom: 2.3rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .section-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card {
+      background: var(--bg-soft);
+      border-radius: var(--radius-lg);
+      padding: 1.1rem 1.2rem;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      font-size: 0.88rem;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(129, 140, 248, 0.9);
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.95);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .card-meta {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      text-align: right;
+    }
+
+    .list {
+      padding-left: 1.15rem;
+      margin-top: 0.35rem;
+      color: var(--text-muted);
+    }
+
+    .list li {
+      margin-bottom: 0.18rem;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.35rem;
+    }
+
+    .skill-tag {
+      font-size: 0.78rem;
+      padding: 0.26rem 0.7rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-muted);
+    }
+
+    .skill-tag.highlight {
+      border-color: rgba(129, 140, 248, 0.9);
+      background: var(--accent-soft);
+      color: #e0e7ff;
+    }
+
+    .timeline-item + .timeline-item {
+      margin-top: 0.65rem;
+      padding-top: 0.65rem;
+      border-top: 1px dashed rgba(148, 163, 184, 0.55);
+    }
+
+    .timeline-title {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .timeline-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      font-size: 0.86rem;
+      margin-top: 0.4rem;
+    }
+
+    .contact-chip {
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      padding: 0.45rem 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .contact-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .contact-chip a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    footer {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(15, 23, 42, 0.9);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 780px) {
+      .site-header {
+        flex-wrap: wrap;
+      }
+      nav {
+        order: 3;
+        justify-content: flex-start;
+      }
+      .profile-pic-wrap {
+        order: 2;
+        margin-left: 0;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .page {
+        padding-inline: 1rem;
+      }
+      .profile-pic {
+        width: 90px;
+        height: 90px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="brand">
+        <div class="brand-mark">NN</div>
+        <div>
+          <div class="brand-text-main">Neha Nemade</div>
+          <div class="brand-text-sub">B.Tech – Electronics & Telecommunication Engineering</div>
+        </div>
+      </div>
+
+      <nav>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#experience">Internship</a>
+        <a href="#education">Education</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <!-- circular photo top-right -->
+      <div class="profile-pic-wrap">
+        <!-- put your image file name here -->
+        <img src="neha-profile.jpg" alt="Neha Nemade" class="profile-pic" />
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero" id="about">
+      <div class="hero-main">
+        <div class="hero-pill">
+          <span></span>
+          Open to internships & project opportunities
+        </div>
+        <h1>
+          Hi, I’m <span>Neha</span> 👋
+        </h1>
+        <p class="hero-role">
+          B.Tech Electronics & Telecommunication Engineering · MIT Academy of Engineering, Pune
+        </p>
+        <p class="hero-summary">
+          I am an aspiring engineer interested in <strong>embedded systems, automation, and IoT-based solutions</strong>.
+          I enjoy building electronics projects that solve real-world problems, from smart safety systems to
+          contactless automation. I’m eager to keep learning and work on <strong>innovative, hands-on projects</strong>.
+        </p>
+
+        <div class="hero-actions">
+          <!-- these links will work after upload to GitHub / add correct URLs -->
+          <a href="resume.pdf" class="btn-primary" target="_blank" rel="noopener">Download Resume</a>
+          <a href="#projects" class="btn-ghost">View Projects</a>
+        </div>
+
+        <div class="hero-meta">
+          <div class="hero-meta-item">
+            <span>Current Degree</span>
+            B.Tech – E&TC (2023–2027)
+          </div>
+          <div class="hero-meta-item">
+            <span>CGPA</span>
+            6.38 / 10 (latest semester)
+          </div>
+          <div class="hero-meta-item">
+            <span>Location</span>
+            Pune, Maharashtra · India
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero-side">
+        <div class="hero-side-title">Contact</div>
+        <div class="hero-side-text">
+          Phone: +91-7397803768<br />
+          Email: nehanemade56@gmail.com<br />
+          College Email: 202301070137@mitaoe.ac.in
+        </div>
+
+        <div class="hero-side-title">Current Address</div>
+        <div class="hero-side-text">
+          Alandi Devachi – Dehu Phata, SK Girls Hostel,<br />
+          Hindvi Colony No.1, Pune – 412105, Maharashtra, India
+        </div>
+
+        <div class="hero-side-title">Personal Details</div>
+        <ul class="hero-side-list">
+          <li><strong>Date of Birth:</strong> 13 Nov 2005</li>
+          <li><strong>Gender:</strong> Female</li>
+          <li><strong>Marital Status:</strong> Single</li>
+          <li><strong>Permanent Address:</strong> Datala, Tal. Malkapur, Dist. Buldhana – 443102</li>
+        </ul>
+      </aside>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <div class="section-header">
+        <h2 class="section-title">Skills</h2>
+        <p class="section-subtitle">Technical strengths from academic work & projects</p>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Core Technical Skills</div>
+            <div class="card-meta">Electronics & Embedded</div>
+          </div>
+          <p style="color:var(--text-muted);font-size:0.86rem;">
+            Hands-on experience with microcontrollers, sensors and basic automation circuits.
+          </p>
+          <div class="tag-row">
+            <span class="skill-tag highlight">Microcontroller Programming (ESP32 / Arduino)</span>
+            <span class="skill-tag">Motor Driver Integration (L298N)</span>
+            <span class="skill-tag">Sensor Interfacing (MQ-3, Ultrasonic)</span>
+            <span class="skill-tag">Arduino Programming</span>
+            <span class="skill-tag">Circuit Design & Implementation</span>
+            <span class="skill-tag">Soldering & PCB Assembly</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Networking & Other Skills</div>
+            <div class="card-meta">Cisco Internship & projects</div>
+          </div>
+          <p style="color:var(--text-muted);font-size:0.86rem;">
+            Completed Cisco Networking Essentials with practical understanding of networks.
+          </p>
+          <div class="tag-row">
+            <span class="skill-tag highlight">Networking Fundamentals</span>
+            <span class="skill-tag">Network Troubleshooting Basics</span>
+            <span class="skill-tag">Teamwork & Collaboration</span>
+            <span class="skill-tag">Problem Solving</span>
+            <span class="skill-tag">Project-based Learning</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="section-header">
+        <h2 class="section-title">Projects</h2>
+        <p class="section-subtitle">Practical electronics and automation work</p>
+      </div>
+
+      <div class="grid grid-2">
+        <article class="card">
+          <div class="card-header">
+            <div class="card-title">Speed Control & Ethanol Detection in Automobiles</div>
+            <div class="card-meta">
+              Mentor: Prof. Vinaya Tapkir · Team size: 4
+            </div>
+          </div>
+          <p style="color:var(--text-muted);font-size:0.86rem;">
+            Vehicle safety system that detects alcohol consumption and controls vehicle speed to help prevent accidents.
+          </p>
+          <ul class="list">
+            <li>Integrated <strong>MQ-3 alcohol sensor</strong> with a speed control mechanism.</li>
+            <li>Used <strong>ESP32 microcontroller</strong>, ultrasonic sensors and a GSM module for detection and alerts.</li>
+            <li>Aims to reduce accidents by regulating speed and detecting driver impairment.</li>
+          </ul>
+          <div class="tag-row">
+            <span class="skill-tag">ESP32</span>
+            <span class="skill-tag">MQ-3 Alcohol Sensor</span>
+            <span class="skill-tag">Ultrasonic Sensor</span>
+            <span class="skill-tag">GSM Module</span>
+            <span class="skill-tag">Motor Driver (L298N)</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-header">
+            <div class="card-title">Automatic Door Bell Ringer</div>
+            <div class="card-meta">
+              Mentor: Dr. Usha Verma · Team size: 2
+            </div>
+          </div>
+          <p style="color:var(--text-muted);font-size:0.86rem;">
+            Automatic doorbell using an IR sensing circuit and 555 Timer for contactless visitor detection.
+          </p>
+          <ul class="list">
+            <li>IR sensor detects a visitor and automatically triggers a buzzer.</li>
+            <li><strong>555 Timer IC</strong> in monostable mode generates a timed pulse when IR beam is interrupted.</li>
+            <li>Demonstrates use of simple electronics for a hygienic, touch-free system.</li>
+          </ul>
+          <div class="tag-row">
+            <span class="skill-tag">IR Sensor</span>
+            <span class="skill-tag">555 Timer (Monostable)</span>
+            <span class="skill-tag">Circuit Design</span>
+            <span class="skill-tag">Soldering & PCB Assembly</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-header">
+            <div class="card-title">Smart Dustbin using Arduino</div>
+            <div class="card-meta">
+              Mentor: Dr. Vishal Puranik
+            </div>
+          </div>
+          <p style="color:var(--text-muted);font-size:0.86rem;">
+            Smart dustbin that opens automatically when someone approaches, promoting hygiene.
+          </p>
+          <ul class="list">
+            <li>Used <strong>Arduino UNO</strong> and an ultrasonic sensor for proximity detection.</li>
+            <li>Controlled an <strong>SG-90 micro servo</strong> to lift the lid automatically.</li>
+            <li>Powered by a 9V battery for simple standalone operation.</li>
+          </ul>
+          <div class="tag-row">
+            <span class="skill-tag">Arduino UNO</span>
+            <span class="skill-tag">Ultrasonic Sensor</span>
+            <span class="skill-tag">SG-90 Servo Motor</span>
+            <span class="skill-tag">Embedded System Basics</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- INTERNSHIP -->
+    <section id="experience">
+      <div class="section-header">
+        <h2 class="section-title">Internship</h2>
+        <p class="section-subtitle">Industry exposure & certifications</p>
+      </div>
+
+      <div class="card">
+        <div class="timeline-item">
+          <div class="timeline-title">Networking Intern – Cisco Networking Academy</div>
+          <div class="timeline-meta">
+            26 Jun 2025 – 27 Aug 2025 · Networking Essentials
+          </div>
+          <ul class="list">
+            <li>Completed <strong>Cisco Networking Essentials</strong> certification.</li>
+            <li>Gained hands-on skills in <strong>networking fundamentals</strong> and basic troubleshooting.</li>
+            <li>Learned how networks are structured, configured and maintained.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education">
+      <div class="section-header">
+        <h2 class="section-title">Education</h2>
+        <p class="section-subtitle">Academic qualifications</p>
+      </div>
+
+      <div class="card">
+        <div class="timeline-item">
+          <div class="timeline-title">MIT Academy of Engineering, Pune</div>
+          <div class="timeline-meta">
+            B.Tech – Electronics and Telecommunication Engineering · 2023 – 2027
+          </div>
+          <ul class="list">
+            <li>CGPA: 6.38 / 10</li>
+          </ul>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-title">Nutan Vidyalaya & Jr College, Malkapur</div>
+          <div class="timeline-meta">
+            12th · MSBSHSE · 2023
+          </div>
+          <ul class="list">
+            <li>Percentage: 65%</li>
+          </ul>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-title">DES High School, Datala</div>
+          <div class="timeline-meta">
+            10th · MSBSHSE · 2021
+          </div>
+          <ul class="list">
+            <li>Percentage: 72%</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="section-header">
+        <h2 class="section-title">Contact</h2>
+        <p class="section-subtitle">Reach out for opportunities or collaborations</p>
+      </div>
+
+      <div class="card">
+        <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:0.4rem;">
+          I’m open to internships, project work, and opportunities in electronics, embedded systems and networking.
+        </p>
+
+        <div class="contact-row">
+          <div class="contact-chip">
+            <div class="contact-label">Email</div>
+            <div><a href="mailto:nehanemade56@gmail.com">nehanemade56@gmail.com</a></div>
+          </div>
+
+          <!-- TODO: replace # with your real LinkedIn URL -->
+          <div class="contact-chip">
+            <div class="contact-label">LinkedIn</div>
+            <div><a href="#" target="_blank" rel="noopener">linkedin.com/in/your-profile</a></div>
+          </div>
+
+          <!-- TODO: replace # with your real GitHub URL -->
+          <div class="contact-chip">
+            <div class="contact-label">GitHub</div>
+            <div><a href="#" target="_blank" rel="noopener">github.com/your-username</a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="year"></span> Neha Nemade. All rights reserved.
+    </footer>
+  </div>
+
+  <script>
+    // Auto year
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
