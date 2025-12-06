@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Simple Shopping Site — Demo</title>
+  <style>
+    :root{--accent:#4f46e5;--muted:#6b7280;--bg:#f8fafc}
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial; margin:0;background:var(--bg);color:#0f172a}
+    .container{max-width:1100px;margin:36px auto;padding:20px}
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+    h1{margin:0;font-size:1.25rem}
+    .search{display:flex;gap:8px}
+    input[type="search"]{padding:8px 12px;border-radius:8px;border:1px solid #e6e9ee;min-width:220px}
+    button{background:var(--accent);color:#fff;border:none;padding:8px 12px;border-radius:8px;cursor:pointer}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+    .card{background:#fff;border-radius:12px;padding:12px;box-shadow:0 6px 18px rgba(15,23,42,0.06);display:flex;flex-direction:column}
+    .thumb{height:140px;border-radius:8px;object-fit:cover;margin-bottom:8px;background:#eef2ff;display:block}
+    .title{font-weight:600;margin:6px 0}
+    .price{color:var(--accent);font-weight:700}
+    .meta{color:var(--muted);font-size:0.9rem;margin-bottom:8px}
+    .card .actions{margin-top:auto;display:flex;gap:8px}
+    .cart-btn{position:relative}
+    .cart-count{position:absolute;top:-8px;right:-8px;background:#ef4444;color:#fff;border-radius:999px;padding:3px 6px;font-size:12px}
+    /* cart modal */
+    .modal{position:fixed;right:18px;bottom:18px;width:360px;max-height:70vh;background:#fff;border-radius:12px;box-shadow:0 10px 30px rgba(2,6,23,0.2);overflow:auto;padding:12px;display:none}
+    .modal.open{display:block}
+    .cart-item{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed #e6e9ee}
+    .cart-item img{width:64px;height:64px;object-fit:cover;border-radius:8px}
+    .cart-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+    .small{font-size:0.9rem;color:var(--muted)}
+    footer{margin-top:28px;text-align:center;color:var(--muted);font-size:0.9rem}
+    @media (max-width:600px){.modal{right:10px;left:10px;width:auto}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>My Demo Shop</h1>
+      <div style="display:flex;gap:12px;align-items:center">
+        <div class="search">
+          <input id="search" type="search" placeholder="Search products..." />
+          <button id="clearSearch" title="Clear">✕</button>
+        </div>
+        <div class="cart-btn">
+          <button id="openCart">🛒 Cart</button>
+          <div id="cartCount" class="cart-count" style="display:none">0</div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="products" class="grid">
+        <!-- products injected here -->
+      </section>
+    </main>
+
+    <div id="cartModal" class="modal" aria-hidden="true">
+      <h3>Shopping Cart</h3>
+      <div id="cartItems"></div>
+      <div class="cart-footer">
+        <div>
+          <div class="small">Total:</div>
+          <div id="cartTotal" style="font-weight:700;font-size:1.05rem">₹0</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button id="checkout">Checkout</button>
+          <button id="closeCart" style="background:#e6e9ee;color:#111">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      Built as a small HTML/JS demo. Edit the products array in the script to add or change items.
+    </footer>
+  </div>
+
+  <script>
+    // Demo product data (small, editable)
+    const products = [
+      {id:1,name:"Classic Sneakers",price:2499,desc:"Comfortable everyday sneakers",img:"https://placehold.co/600x400?text=Sneakers"},
+      {id:2,name:"Denim Jacket",price:3999,desc:"Stylish denim jacket for all seasons",img:"https://placehold.co/600x400?text=Jacket"},
+      {id:3,name:"Wireless Headphones",price:5999,desc:"Noise-cancelling over-ear headphones",img:"https://placehold.co/600x400?text=Headphones"},
+      {id:4,name:"Backpack",price:1799,desc:"Durable travel backpack with laptop sleeve",img:"https://placehold.co/600x400?text=Backpack"},
+      {id:5,name:"Sunglasses",price:1299,desc:"Polarized lenses with UV protection",img:"https://placehold.co/600x400?text=Sunglasses"},
+      {id:6,name:"Wristwatch",price:3499,desc:"Water-resistant quartz watch",img:"https://placehold.co/600x400?text=Watch"}
+    ];
+
+    // cart is a map of productId -> qty
+    const cart = {};
+
+    const productsEl = document.getElementById('products');
+    const cartCountEl = document.getElementById('cartCount');
+    const cartModal = document.getElementById('cartModal');
+    const cartItemsEl = document.getElementById('cartItems');
+    const cartTotalEl = document.getElementById('cartTotal');
+
+    function formatINR(n){ return '₹' + n.toLocaleString('en-IN'); }
+
+    function renderProducts(list){
+      productsEl.innerHTML = '';
+      list.forEach(p => {
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
+          <img class="thumb" src="${p.img}" alt="${p.name}" />
+          <div class="title">${p.name}</div>
+          <div class="meta">${p.desc}</div>
+          <div class="price">${formatINR(p.price)}</div>
+          <div class="actions">
+            <button data-id="${p.id}" class="add">Add to cart</button>
+            <button data-id="${p.id}" class="view">View</button>
+          </div>
+        `;
+        productsEl.appendChild(card);
+      });
+    }
+
+    function updateCartCount(){
+      const qty = Object.values(cart).reduce((s,x)=>s+x,0);
+      if(qty>0){ cartCountEl.style.display='block'; cartCountEl.textContent = qty; } else { cartCountEl.style.display='none'; }
+    }
+
+    function renderCart(){
+      cartItemsEl.innerHTML = '';
+      let total = 0;
+      if(Object.keys(cart).length===0){ cartItemsEl.innerHTML = '<div class="small">Your cart is empty.</div>'; cartTotalEl.textContent = formatINR(0); return; }
+      for(const id in cart){
+        const product = products.find(p => p.id==id);
+        const qty = cart[id];
+        const lineTotal = product.price * qty;
+        total += lineTotal;
+
+        const item = document.createElement('div');
+        item.className = 'cart-item';
+        item.innerHTML = `
+          <img src="${product.img}" alt="${product.name}" />
+          <div style="flex:1">
+            <div style="font-weight:600">${product.name}</div>
+            <div class="small">${formatINR(product.price)} × ${qty} = ${formatINR(lineTotal)}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+            <div>
+              <button data-id="${id}" class="inc">+</button>
+              <button data-id="${id}" class="dec">−</button>
+            </div>
+            <button data-id="${id}" class="remove" style="background:#fee2e2;color:#ef4444">Remove</button>
+          </div>
+        `;
+        cartItemsEl.appendChild(item);
+      }
+      cartTotalEl.textContent = formatINR(total);
+    }
+
+    // Event delegation for product buttons
+    document.body.addEventListener('click', e => {
+      if(e.target.matches('.add')){
+        const id = e.target.dataset.id;
+        cart[id] = (cart[id] || 0) + 1;
+        updateCartCount();
+      }
+      if(e.target.matches('.view')){
+        const id = e.target.dataset.id;
+        const p = products.find(x=>x.id==id);
+        alert(`${p.name}\n\n${p.desc}\n\nPrice: ${formatINR(p.price)}`);
+      }
+      if(e.target.id === 'openCart'){
+        cartModal.classList.add('open'); renderCart(); cartModal.setAttribute('aria-hidden','false');
+      }
+      if(e.target.id === 'closeCart'){
+        cartModal.classList.remove('open'); cartModal.setAttribute('aria-hidden','true');
+      }
+      if(e.target.matches('.inc')){
+        const id = e.target.dataset.id; cart[id] = (cart[id]||0)+1; renderCart(); updateCartCount();
+      }
+      if(e.target.matches('.dec')){
+        const id = e.target.dataset.id; if(!cart[id]) return; cart[id]--; if(cart[id]<=0) delete cart[id]; renderCart(); updateCartCount();
+      }
+      if(e.target.matches('.remove')){
+        const id = e.target.dataset.id; delete cart[id]; renderCart(); updateCartCount();
+      }
+      if(e.target.id === 'checkout'){
+        if(Object.keys(cart).length===0){ alert('Your cart is empty.'); return; }
+        // For demo, just show the order summary and clear the cart
+        let summary = 'Order placed!\n\nItems:\n';
+        for(const id in cart){ const p = products.find(x=>x.id==id); summary += `${p.name} × ${cart[id]}\n`; }
+        summary += `\nTotal: ${cartTotalEl.textContent}`;
+        alert(summary);
+        // clear cart
+        for(const k in cart) delete cart[k]; renderCart(); updateCartCount(); cartModal.classList.remove('open');
+      }
+    });
+
+    // Search behavior
+    document.getElementById('search').addEventListener('input', e => {
+      const q = e.target.value.trim().toLowerCase();
+      if(!q) return renderProducts(products);
+      const filtered = products.filter(p => (p.name + ' ' + p.desc).toLowerCase().includes(q));
+      renderProducts(filtered);
+    });
+    document.getElementById('clearSearch').addEventListener('click', () => { document.getElementById('search').value=''; renderProducts(products); });
+
+    // initial render
+    renderProducts(products);
+    updateCartCount();
+  </script>
+</body>
+</html>
